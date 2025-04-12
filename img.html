@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Image Viewer</title>
+  <style>
+    /* ページ全体に画像を表示するためのスタイル */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #image-container {
+      width: 100%;
+      height: 100vh;  /* ビューポートの高さに合わせる */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="image-container">
+    <!-- Base64画像を表示するためのimgタグ -->
+    <img id="image" src="" alt="Base64 Image">
+  </div>
+
+  <script>
+    // URLパラメータからBase64エンコードされた画像コードを取得
+    function getUrlParameter(name) {
+      var url = window.location.search;
+      var regex = new RegExp('[?&]' + name + '=([^&]*)', 'i');
+      var result = regex.exec(url);
+      return result ? decodeURIComponent(result[1]) : null;
+    }
+
+    // URLパラメータからBase64エンコードされた画像を取得
+    var base64Image = getUrlParameter('code'); // URLから「code」の値を取得
+
+    if (base64Image) {
+      // Base64エンコードされた画像をデータURL形式に設定
+      var imageDataUrl = 'data:image/png;base64,' + base64Image;
+
+      // <img>タグに画像データを設定
+      var imgElement = document.getElementById('image');
+      imgElement.src = imageDataUrl;
+    } else {
+      alert("画像データがURLパラメータにありません。");
+    }
+  </script>
+
+</body>
+</html>
